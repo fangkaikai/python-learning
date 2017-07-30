@@ -1,0 +1,12 @@
+import re
+fin=open('C:/Users/fangkai/DeskTop/sika.txt','r')
+str=fin.read()
+pipei=re.compile('[\w\'\_]+')
+str=pipei.findall(str)
+count={}
+for word in str:
+	if word in count:
+		count[word]+=1
+	else:
+		count[word]=1
+print(count)
