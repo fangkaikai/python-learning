@@ -1,0 +1,32 @@
+import re,os
+
+def count(Path):
+    file=open(Path,'r')
+    str=file.read()
+    pipei=re.compile('\b?[a-zA-z0-9\_\']+\b?')
+    words=pipei.findall(str)
+    dictw={}
+    for word in words:
+        word=word.lower()
+        if word in ['a','the','to','of','and','you','i','be','are']:
+        	continue
+        if word in dictw:
+            dictw[word]+=1
+        else:
+            dictw[word]=1
+    pailie=sorted(dictw.items(),key=lambda t:t[1],reverse=True)
+    maxword=pailie[0]
+    return maxword
+
+path='C:/Users/fangkai/DeskTop/日记'
+wendangs=os.listdir(path)
+
+for wendang in wendangs:
+	Path_wendang=path+'/'+wendang
+	result=count(Path_wendang)
+	print(result)
+
+
+
+
+
