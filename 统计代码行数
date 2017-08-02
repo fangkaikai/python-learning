@@ -1,0 +1,23 @@
+import os,re
+
+path='C:/Users/fangkai/DeskTop/python'
+files=os.listdir(path)
+def count(Path):
+    wendang=open(Path)
+    all_lines=0
+    space_lines=0
+    exp_lines=0
+    for line in wendang.readlines():
+        all_lines+=1
+        if line.strip()=='':
+            space_lines+=1
+            continue
+        if re.compile(r'^#.*').findall(line.strip()):
+            exp_lines+=1
+    print('总行数:%s\t空格行数:%s\t注释行数:%s'%(all_lines,space_lines,exp_lines))
+
+
+for file in files:
+    f_path=os.path.join(path,file)
+    print(file)
+    count(f_path)
