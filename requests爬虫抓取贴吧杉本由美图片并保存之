@@ -1,0 +1,17 @@
+import os 
+import requests
+from bs4 import BeautifulSoup
+url='http://tieba.baidu.com/p/2166231880'
+html=requests.get(url)
+soup=BeautifulSoup(html.text,'html.parser')
+img_urls=soup.findAll('img',['class','BDE_Image'])
+i=1
+
+for img_url in img_urls:
+    img_url=img_url['src']
+    image=requests.get(img_url)
+    content=image.content
+    title=chr
+    with open('C:/Users/fangkai/DeskTop/图片/%s.jpg'%i,'wb' ) as f:
+        f.write(content)
+    i+=1
