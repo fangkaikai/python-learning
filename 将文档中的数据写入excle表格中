@@ -1,0 +1,23 @@
+'''   文档数据
+{
+	"1":["张三",150,120,100],
+	"2":["李四",90,99,95],
+	"3":["王五",60,66,68]
+}
+'''
+from collections import OrderedDict
+import json,xlwt
+
+
+with open('C:/Users/fangkai/DeskTop/学生信息.txt') as f:
+    data=json.load(f,object_pairs_hook=OrderedDict)
+    workbook=xlwt.Workbook()
+    sheet1=workbook.add_sheet('student',cell_overwrite_ok=True)
+    for index,(key,values) in enumerate(data.items()):
+        sheet1.write(index,0,key)
+        for i,value in enumerate(values):
+            sheet1.write(index,i+1,value)
+
+
+
+    workbook.save('C:/Users/fangkai/DeskTop/student.xls')
