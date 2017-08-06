@@ -1,0 +1,25 @@
+'''
+[
+	[1, 82, 65535], 
+	[20, 90, 13],
+	[26, 809, 1024]
+]
+'''
+import xlwt
+import json
+import xlwt
+from collections import OrderedDict
+
+with open('C:/Users/fangkai/DeskTop/number.txt') as f:
+    f=f.read()
+    f=json.loads(f)
+    workbook=xlwt.Workbook()
+    sheet_1=workbook.add_sheet('number',cell_overwrite_ok=True)
+    a=0
+    for i in f:
+        for index,value in enumerate(i):     
+            sheet_1.write(a,index,value)
+        a+=1
+
+workbook.save('C:/Users/fangkai/DeskTop/number.xls')
+
