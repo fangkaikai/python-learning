@@ -1,0 +1,39 @@
+import time
+import xlrd
+import re
+
+all_time=0
+start_time=time.mktime(time.strptime('2017-08-01','%Y-%m-%d'))
+end_time=time.mktime(time.strptime('2017-09-01','%Y-%m-%d'))
+def str2sec(str):
+	print(str)
+	sec=0
+	time_re=re.compile(r'(\d+)(\D+)')
+	time_list=time_re.findall(str)
+	for time_item in time_list:
+		if time_item[1]=='秒':
+			sec+=int(time_item[0])
+		elif time_item[1]=='分':
+			sec+=int(time_item[0])*60
+		elif time_item[1]=='小时':
+			sec+=int(time_item[0])*3600
+	print(sec)
+	return sec 
+def sec2str(sec):
+	h=sec//3600
+	m=sec%3600//60
+	s=sec%60
+	return '%s小时%s分%s秒' %(h,m,s)
+
+with xlrd.open_workbook('C:/Users/fangkai/DeskTop/2017年08月语音通信.xls') as f:
+	table=f.sheets()[0]
+	nrows=table.nrows
+	for i in range(nrows):
+		if i==0:
+			continue
+		this_time=time.mktime(time.strptime(table.row_values(i)[2],'%Y-%m-%d %H:%M:%S'))
+		if this_time>=start_time and this_time<end_time:
+			all_time+=str2sec(table.row_values(i)[3])
+
+print(sec2str(all_time))
+	
