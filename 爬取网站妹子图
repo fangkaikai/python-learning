@@ -1,0 +1,53 @@
+import requests
+import re
+from bs4 import BeautifulSoup
+import os 
+urls=[]
+html=requests.get('http://www.mzitu.com')
+soup=BeautifulSoup(html.text,'html.parser')
+exhaustive_url=soup.find('ul',id='pins')
+exhaustive_url=exhaustive_url.find_all('a',target='_blank')
+for exhaustive_urls in exhaustive_url:
+    exhaustive_urls=exhaustive_urls['href']
+    if not exhaustive_urls in urls:
+        urls.append(exhaustive_urls)
+p=0
+for url in urls:
+    pathpath='C:/Users/fangkai/DeskTop/mzt'
+    f=str(p)
+    os.mkdir(pathpath+'/'+f)
+    p+=1
+    header={'User-Agent':'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36'}
+    html=requests.get(url,headers=header)
+    soup=BeautifulSoup(html.text,'html.parser')
+    def count(html):
+        page=soup.find('div',class_='pagenavi')
+        page=page.find_all('span')
+        yeshu=[]
+        for ye in page:
+            if re.match('\d+',ye.text):
+                yeshu.append(ye.text)
+        return(yeshu[-1])
+    def mingzi(html):
+        f=soup.find('h2',class_='main-title')
+        return f.text
+    max_page=int(count(soup))
+    name=mingzi(soup)
+    urlss=[]
+    urlss.append(url)
+    for i in range(max_page-1):
+        new_url=url+'/'+str(i+2)
+        urlss.append(new_url)
+    path='C:/Users/fangkai/DeskTop/mzt'
+    i=0
+    for url in urlss:
+        url_1t=requests.get(url,headers=header)
+        soup=BeautifulSoup(url_1t.text,'html.parser')
+        ev_url=soup.find('div',['class','main-image'])
+        ev_url=ev_url.find_all('img')[0]
+        ev_url=ev_url['src']
+        new_header={'User-Agent':'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36','Referer':url}
+        img=requests.get(ev_url,headers=new_header)
+        with open(path+'/'+f+'/'+str(i)+'.jpg','wb') as m:
+            m.write(img.content)
+        i+=1
