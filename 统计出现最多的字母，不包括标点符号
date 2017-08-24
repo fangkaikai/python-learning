@@ -1,0 +1,37 @@
+#方法1
+
+
+import re
+from collections import Counter
+def get_max_value(text):
+	text=text.lower()
+	result=re.findall('[a-zA-Z]',text)
+	count=Counter(result)
+	count_list=list(count.values())
+	max_value=max(count_list)
+	max_list=[]
+	for k,v in count.items():
+		if v==max_value:
+			max_list.append(k)
+	max_list=sorted(max_list)
+	return max_list[0]
+
+
+
+#方法2：
+import re
+from collections import Counter
+def get_max_value(text):
+	count=Counter([x for x in text.lower() if x.isalpha()])
+	m=max(count.values())
+	return sorted([x for (x,y) in count.items() if y==m])[0]
+
+
+
+#方法3：
+import string
+def get_max_value(text):
+	text = text.lower()
+	return max(string.ascii_lowercase, key=text.count)
+#max 的key函数将前边的字母逐一代入，选取最大值输出
+string.ascii_lowercase即为26个小写字母
